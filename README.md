@@ -176,13 +176,15 @@ export default withAuthenticator(App, { includeGreetings: true })
 ### Creating custom user sign out button while using the withAuthenticator HOC
 
 ```js
-Auth.signOut()
-  .then(() => {
-    this.props.onStateChange('signedOut', null);
-  })
-  .catch(err => {
-    console.log('err: ', err)
-  })
+signOut = () => {
+  Auth.signOut()
+    .then(() => {
+      this.props.onStateChange('signedOut', null);
+    })
+    .catch(err => {
+      console.log('err: ', err)
+    })
+}
 ```
 
 ### Custom authentication strategies
