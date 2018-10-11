@@ -25,7 +25,7 @@ npm install -g react-native-cli
 react-native init AmplifyApp
 ```
 
-Now change into the new app directory & install the AWS Amplify, AWS Amplify React Native, & React Native Vector Icon libraries:
+Now change into the new app directory & install the AWS Amplify & AWS Amplify React Native libraries:
 
 ```bash
 cd AmplifyApp
