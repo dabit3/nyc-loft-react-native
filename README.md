@@ -477,6 +477,35 @@ API.graphql(
 });
 ```
 
+### Adding Authorization to the GraphQL API (Advanced, optional)
+
+To add authorization to the API, we can reconfigure the API to use our cognito identity pool. To do so, we can run `amplify configure api`:
+
+```sh
+amplify configure api
+```
+
+Here, we'll choose __Amazon Cognito User Pool__.
+
+Next, we'll run `amplify push`:
+
+```sh
+amplify push
+```
+
+Now, we can only access the API with a logged in user.
+
+Let's how how we can access the user's identity in the resolver. To do so, open the AWS AppSync dashboard for the API, click __Schema__, & open the resolver for the `createPet` mutation.
+
+Here in the __Request mapping template__, update the resolver to add the following:
+
+```js
+$util.qr($context.args.input.put("userId", $context.identity.sub))
+$util.qr($context.args.input.put("username", $context.identity.username))
+```
+
+Now when we create items, the user's identity is stored with each request.
+
 ## Adding a REST API
 
 To add a REST API, we can use the following command:
