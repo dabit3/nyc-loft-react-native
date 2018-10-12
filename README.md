@@ -495,7 +495,9 @@ amplify push
 
 Now, we can only access the API with a logged in user.
 
-Let's how how we can access the user's identity in the resolver. To do so, open the AWS AppSync dashboard for the API, click __Schema__, & open the resolver for the `createPet` mutation.
+_Let's how how we can access the user's identity in the resolver._
+
+To do so, open the AWS AppSync dashboard for the API, click __Schema__, & open the resolver for the `createPet` mutation.
 
 Here in the __Request mapping template__, update the resolver to add the following:
 
@@ -505,6 +507,24 @@ $util.qr($context.args.input.put("username", $context.identity.username))
 ```
 
 Now when we create items, the user's identity is stored with each request.
+
+Next, we need to add an index on the table holding the pet data. The index partition key should be userId & the index name needs to be __userId-index__.
+
+We can now query on the userId index, only fetching data for the logged-in user:
+
+```js
+{
+    "version" : "2017-02-28",
+    "operation" : "Query",
+    "index": "userId-index",
+    "query" : {
+        "expression": "userId = :userId",
+        "expressionValues" : {
+            ":userId" : $util.dynamodb.toDynamoDBJson($ctx.identity.sub)
+        }
+    }
+}
+```
 
 ## Adding a REST API
 
